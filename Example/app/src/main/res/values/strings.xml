@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Example</string>
+    <string name="inad">Inad.io</string>
+    <string name="initializing">Initializing</string>
+    <string name="show">Show</string>
+    <string name="offerwall">Offerwall</string>
+</resources>

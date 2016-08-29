@@ -151,18 +151,18 @@ After you receive the onOfferwallInitSuccess callback, you are ready to show the
 ```
 ###4) Reward the User
 Inad.io supports two methods to reward your users. Select one of the following:
-####1) Server-Side Callbacks:
-The default setting in your Inad account notifies you of user’s completions or rewards via the callback within the client of your app. Alternatively, you can turn on server-to-server callbacks to receive notifications to your back-end server. Once you select server-to-server callbacks you will not receive client-side notifications.
-We recommend turning on server-to-server callbacks for Offerwall instead of client-side callbacks, as the authenticity of the callback can be verified. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer.
-####2) Client-Side Callbacks
-The callback method is:
-```java
-    @Override
-        public boolean onOfferwallAdCredited(BigDecimal credits, BigDecimal totalCredits, boolean totalCreditsFlag) {
-            // do your code
-            return false;
-        }
-```
+  ####1) Server-Side Callbacks:
+  The default setting in your Inad account notifies you of user’s completions or rewards via the callback within the client of your app. Alternatively, you can turn on server-to-server callbacks to receive notifications to your back-end server. Once you select server-to-server callbacks you will not receive client-side notifications.
+  We recommend turning on server-to-server callbacks for Offerwall instead of client-side callbacks, as the authenticity of the callback can be verified. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer.
+  ####2) Client-Side Callbacks
+  The callback method is:
+  ```java
+      @Override
+          public boolean onOfferwallAdCredited(BigDecimal credits, BigDecimal totalCredits, boolean totalCreditsFlag) {
+              // do your code
+              return false;
+          }
+  ```
 
 ## Documentation
 

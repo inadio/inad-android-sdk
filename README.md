@@ -10,7 +10,7 @@ This Android application project provides an example of the inad.io SDK integrat
 
 Use Gradle:
 ```groovy
-compile 'io.inad.sdk:inad:1.1.5'{
+compile 'io.inad.sdk:inad:1.1.7'{
   exclude group: 'glide-parent'
 }
 ```
@@ -19,7 +19,7 @@ or Maven:
 <dependency>
   <groupId>io.inad.sdk</groupId>
   <artifactId>inad</artifactId>
-  <version>1.1.5</version>
+  <version>1.1.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -30,7 +30,7 @@ Get up and running in 4 easy steps:
 The Inad SDK fires several events to inform you of ad availability. By implementing theOfferwallListener you will receive Offerwall events.
 The SDK will notify your listener of all possible events listed below:
 ```java
-OfferwallListener mOfferwallListener = new OfferwallListener() {
+  OfferwallListener mOfferwallListener = new OfferwallListener() {
 
         /**
          * Invoked when the Offerwall is prepared and ready to be shown to the user
@@ -88,12 +88,12 @@ OfferwallListener mOfferwallListener = new OfferwallListener() {
          */
         @Override
         public void onOfferwallClosed() {}
-    }
+  }
 ```
 ###2) Initialize the Offerwall Unit
 Once the Offerwall Ad Unit is initialized, you will able to call functions on it. We recommend initializing the Offerwall on application launch.
 ```java
-public class YourActivity extends Activity {
+  public class YourOfferwallActivity extends Activity {
     public static final String AdUniqueCode = "YOUR_AD_UNIQUE_CODE";
     private InAdNetwork mInAdNetworkInstance;
 
@@ -102,23 +102,25 @@ public class YourActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yourxml);
 
-        // your call back data, it could be user id.
-        String callBackData = "UserID";
         // create the inad instance - this should be called when the activity starts
         mInAdNetworkInstance = InAdNetwork.getInstance(getBaseContext());
         // set the Inad offerwall listener
         // should call before init offerwall
         mInAdNetworkInstance.setOfferwallListener(mOfferwallListener);
+        // You can set optional custom parameters which will be passed to
+        // your server if you use server-to-server callbacks.
+        Map<String, String> owParams = new HashMap<String, String>();
+        owParams.put("userId", "1000");
+        mInAdNetworkInstance.setOfferwallCallbackParams(owParams);
+        // You can set optional test mode to show many test offerwall apps.
+        mInAdNetworkInstance.setOfferwallTestMode(true);
         // init the inad offerwall
-        mInAdNetworkInstance.initOfferwall(this, AdUniqueCode, callBackData);
-        // or use below method to enable debug mode which will show many test offerwall apps.
-        // mInAdNetworkInstance.initOfferwall(this, AdUniqueCode, callBackData, true);
+        mInAdNetworkInstance.initOfferwall(this, AdUniqueCode);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // call the inad onResume method
         if (mInAdNetworkInstance != null)
             mInAdNetworkInstance.onResume(this);
     }
@@ -126,7 +128,6 @@ public class YourActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        // call the inad onPause method
         if (mInAdNetworkInstance != null)
             mInAdNetworkInstance.onPause(this);
     }
@@ -134,7 +135,6 @@ public class YourActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // call the inad onDestroy method
         if (mInAdNetworkInstance != null)
             mInAdNetworkInstance.onDestroy(this);
     }
@@ -144,25 +144,25 @@ public class YourActivity extends Activity {
 After you receive the onOfferwallInitSuccess callback, you are ready to show the Offerwall to your users. When you want to show the Offerwall (typically done after a user clicks on some in-app button), you do so by calling the showOfferwall method on mInAdNetworkInstance:
 ```java
   // check if offerwall is available
-    if (mInAdNetworkInstance.isOfferwallAvailable()) {
-        // show offerwall
-        mInAdNetworkInstance.showOfferwall();
-    }
+  if (mInAdNetworkInstance.isOfferwallAvailable()) {
+      // show offerwall
+      mInAdNetworkInstance.showOfferwall();
+  }
 ```
 ###4) Reward the User
-Inad.io supports two methods to reward your users. Select one of the following:
-####1) Server-Side Callbacks:
-  The default setting in your Inad account notifies you of user’s completions or rewards via the callback within the client of your app. Alternatively, you can turn on server-to-server callbacks to receive notifications to your back-end server. Once you select server-to-server callbacks you will not receive client-side notifications.
-  We recommend turning on server-to-server callbacks for Offerwall instead of client-side callbacks, as the authenticity of the callback can be verified. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer.
-####2) Client-Side Callbacks
-  The callback method is:
+Inad.io supports two methods to reward your users.
+####1) Client-Side Callbacks
+  If you want to do something or update your UI immediately when credited, you should use this client-callback method:
   ```java
-      @Override
-          public boolean onOfferwallAdCredited(BigDecimal credits, BigDecimal totalCredits, boolean totalCreditsFlag) {
-              // do your code
-              return false;
-          }
+    @Override
+    public boolean onOfferwallAdCredited(BigDecimal credits, BigDecimal totalCredits, boolean totalCreditsFlag) {
+        // do your code to process credits or update ui
+        return false;
+    }
   ```
+####2) Server-Side Callbacks:
+  For the better security, we recommend using the server-to-server callbacks for Offerwall. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer. 
+  Note: If you use server-to-server callbacks, remember optional custom parameters above and not to reward the user more than once for the same completion.
 
 ## Documentation
 

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.inad.InAdNetwork;
 import io.inad.ads.AdError;
@@ -22,7 +24,6 @@ public class DemoActivity extends Activity implements OfferwallListener {
 
     private final String TAG = "DemoActivity";
     public static final String AdUniqueCode = "FAD24DB4-53E1-4A4F-A968-CEAAFBB64033"; //example
-    public static final String CallBackData = "CallBackData"; // your call back data
 
     private TextView mOfferwallCredit;
     private Button mOfferwallButton;
@@ -40,10 +41,15 @@ public class DemoActivity extends Activity implements OfferwallListener {
         // set the Inad offerwall listener
         // should call before init offerwall
         mInAdNetworkInstance.setOfferwallListener(this);
+        // You can set optional custom parameters which will be passed to
+        // your server if you use server-to-server callbacks.
+        Map<String, String> owParams = new HashMap<String, String>();
+        owParams.put("userId", "1000");
+        mInAdNetworkInstance.setOfferwallCallbackParams(owParams);
+        // You can set optional test mode to show many test offerwall apps.
+        mInAdNetworkInstance.setOfferwallTestMode(true);
         // init the inad offerwall
-        // mInAdNetworkInstance.initOfferwall(this, AdUniqueCode, CallBackData);
-        // or use below method to enable debug mode
-        mInAdNetworkInstance.initOfferwall(this, AdUniqueCode, CallBackData, true);
+        mInAdNetworkInstance.initOfferwall(this, AdUniqueCode);
 
         mOfferwallButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +83,10 @@ public class DemoActivity extends Activity implements OfferwallListener {
         final String text;
         final int color;
         if (available) {
-            color = Color.BLUE;
+            color = Color.BLACK;
             text = getResources().getString(R.string.show) + " " + getResources().getString(R.string.offerwall);
         } else {
-            color = Color.BLACK;
+            color = Color.GRAY;
             text = getResources().getString(R.string.initializing) + " " + getResources().getString(R.string.offerwall);
         }
         runOnUiThread(new Runnable() {

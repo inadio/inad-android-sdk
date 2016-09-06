@@ -10,7 +10,7 @@ This Android application project provides an example of the inad.io SDK integrat
 
 Use Gradle:
 ```groovy
-compile 'io.inad.sdk:inad:1.1.7'{
+compile 'io.inad.sdk:inad:1.1.8'{
   exclude group: 'glide-parent'
 }
 ```
@@ -19,7 +19,7 @@ or Maven:
 <dependency>
   <groupId>io.inad.sdk</groupId>
   <artifactId>inad</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -111,6 +111,7 @@ Once the Offerwall Ad Unit is initialized, you will able to call functions on it
         // your server if you use server-to-server callbacks.
         Map<String, String> owParams = new HashMap<String, String>();
         owParams.put("userId", "1000");
+		owParams.put("userType", "Gamer");
         mInAdNetworkInstance.setOfferwallCallbackParams(owParams);
         // You can set optional test mode to show many test offerwall apps.
         mInAdNetworkInstance.setOfferwallTestMode(true);

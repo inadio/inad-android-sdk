@@ -45,6 +45,7 @@ public class DemoActivity extends Activity implements OfferwallListener {
         // your server if you use server-to-server callbacks.
         Map<String, String> owParams = new HashMap<String, String>();
         owParams.put("userId", "1000");
+        owParams.put("userType", "Gamer");
         mInAdNetworkInstance.setOfferwallCallbackParams(owParams);
         // You can set optional test mode to show many test offerwall apps.
         mInAdNetworkInstance.setOfferwallTestMode(true);

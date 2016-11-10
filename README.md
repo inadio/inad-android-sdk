@@ -10,7 +10,7 @@ This Android application project provides an example of the inad.io SDK integrat
 
 Use Gradle:
 ```groovy
-compile 'io.inad.sdk:inad:1.2.0'{
+compile 'io.inad.sdk:inad:1.2.1'{
   exclude group: 'glide-parent'
 }
 ```
@@ -19,7 +19,7 @@ or Maven:
 <dependency>
   <groupId>io.inad.sdk</groupId>
   <artifactId>inad</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <type>pom</type>
 </dependency>
 ```

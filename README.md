@@ -164,6 +164,22 @@ Inad.io supports two methods to reward your users.
 ####2) Server-Side Callbacks:
   For the better security, we recommend using the server-to-server callbacks for Offerwall. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer. 
   Note: If you use server-to-server callbacks, remember optional custom parameters above and not to reward the user more than once for the same completion.
+  Example:
+    http://example.com/callback?gameUser=${YourAppUserId}&deviceIdentifer=&{AdNetworkUserId}&AdId=${AdId}&AdProductId=${AdProductId}&AdProductName=${AdProductName}&AdProductType=${AdProductType}&TraceId=${TransactionId}&AdNetwork=${AdSource}&EarnPoints=${Value}&FromCountry=${Country}&actionTime=${Time}&hashKey=${hashKey}&hashedValue=${hashedValue}
+  Key explanation:
+  ${YourAppUserId} : your app user id which is set when initialize SDK
+  ${AdnetworkUserId} : a unique value for each device (independent from your app user id)
+  ${AdId} : a unique value of the ad that user install or watch
+  ${AdProductId} : technical id of the promoted product (e.g. package name, bundle id...)
+  ${AdProductType} : MOBILE_APP, VIDEO,...
+  ${AdProductName} : The display name of the ad
+  ${TransactionId} : the tracking id for this user action
+  ${AdSouce} : the name of this adnetwork (VKMobile)
+  ${Value} : value that user earns in your app units
+  ${Country} : where the user action from
+  ${Time} : the time when adnetwork receive user action (approximately equals to the client action time)
+  ${hashKey} : is used combined with your secret key to create the ${hashedValue} in order to perform validate the callback
+  ${hashedValue} : Hex encoding of (MD5 hashed of (secretkey + ${hashKey}))
 
 ## Documentation
 

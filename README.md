@@ -10,7 +10,7 @@ This Android application project provides an example of the inad.io SDK integrat
 
 Use Gradle:
 ```groovy
-compile 'io.inad.sdk:inad:1.2.1'{
+compile('io.inad.sdk:inad:1.2.1') {
   exclude group: 'glide-parent'
 }
 ```

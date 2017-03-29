@@ -163,11 +163,16 @@ Inad.io supports two methods to reward your users.
   ```
 ####2) Server-Side Callbacks:
   For the better security, we recommend using the server-to-server callbacks for Offerwall. With server-to-server callbacks, you will have better control over the rewarding process as the user navigates out of your app to complete the offer. 
+  
   Note: If you use server-to-server callbacks, remember optional custom parameters above and not to reward the user more than once for the same completion.
+  
+  Inad has a definition of holder. The format is ${key} (key is a text).
+  
+  In the callback url, Inad supports 13 default holders which will be replaced with values. Inad also provide these values.
   
   Example:
     
-    http://example.com/callback?gameUser=${YourAppUserId}&deviceIdentifer=&{AdNetworkUserId}&AdId=${AdId}&AdProductId=${AdProductId}&AdProductName=${AdProductName}&AdProductType=${AdProductType}&TraceId=${TransactionId}&AdNetwork=${AdSource}&EarnPoints=${Value}&FromCountry=${Country}&actionTime=${Time}&hashKey=${hashKey}&hashedValue=${hashedValue}
+    http://example.com/callback?gameUser=${YourAppUserId}&deviceIdentifer=${AdNetworkUserId}&AdId=${AdId}&AdProductId=${AdProductId}&AdProductName=${AdProductName}&AdProductType=${AdProductType}&TraceId=${TransactionId}&AdNetwork=${AdSource}&EarnPoints=${Value}&FromCountry=${Country}&actionTime=${Time}&hashKey=${hashKey}&hashedValue=${hashedValue}
   
   Key explanation:
  
@@ -196,7 +201,25 @@ Inad.io supports two methods to reward your users.
   ${hashKey} : is used combined with your secret key to create the ${hashedValue} in order to perform validate the callback
   
   ${hashedValue} : Hex encoding of (MD5 hashed of (secretkey + ${hashKey}))
-
+  
+  
+  Moreover, you can define more holders if you want.
+  
+  For example: You use one default holder (${YourAppUserId}) and define more 3 holders such as: ${MethodName}, ${UserId} and ${MapId} for your game.
+  
+  You define the callback url: 
+  http://example.com/${MethodName}?userId=${UserId}&mapId=${MapId}&gameUser=${YourAppUserId}
+  
+  Also remember to add values of these above holders in sdk code:
+  ```java
+  Map<String, String> owParams = new HashMap<String, String>();
+  owParams.put("MethodName", "rewarded");
+  owParams.put("UserId", "1001");
+  owParams.put("MapId", "map1");
+  ```
+  The url will be called when rewarded: 
+  http://example.com/rewarded?userId=1001&mapId=map1&gameUser=172772...
+	
 ## Documentation
 
 Check out our [developers site](http://inad.io/Home/Publisher)
